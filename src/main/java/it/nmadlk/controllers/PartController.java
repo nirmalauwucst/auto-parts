@@ -3,13 +3,18 @@
  */
 package it.nmadlk.controllers;
 
-import java.util.Arrays;
+
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.nmadlk.models.Part;
+import it.nmadlk.services.PartService;
 
 /**
  * @author Navo
@@ -17,13 +22,35 @@ import it.nmadlk.models.Part;
  */
 @RestController
 public class PartController {
+	//@Autowired, which marks that,need of dependency injection for member variable from a service
+	@Autowired
+	private PartService partService;
 	
 	@RequestMapping("/parts")
 	public List<Part> getAllParts() {
-		return Arrays.asList(
-				new Part("SUS01", "Front Outer Bumper", "Suzuki WagonR FZ", "2015", "Suzuki WagonR FZ 2015/2016 Front Outer Bumper "),
-				new Part("SUS02", "R Side Fender", "Suzuki WagonR FZ", "2015", "Suzuki WagonR FZ 2015/2016 Right Side Fender "),
-				new Part("SUS03", "R Side Headlamp", "Suzuki WagonR FZ", "2015", "Suzuki WagonR FZ 2015/2016 Right Side Headlamp")
-				);
+		return partService.getAllParts();
 	}
+	
+	@RequestMapping("/parts/{id}")
+	public Part getPart(@PathVariable String id) {
+		return partService.getPart(id);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/parts")
+	public void addPart(@RequestBody Part part) {
+		partService.addPart(part);
+	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/parts/{id}")
+	public void updatePart(@PathVariable String id, @RequestBody Part part) {
+		partService.updatePart(id, part);
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE, value="/parts/{id}")
+	public void deletePart(@PathVariable String id) {
+		partService.deletePart(id);
+	}
+	
+	
+	
 }
