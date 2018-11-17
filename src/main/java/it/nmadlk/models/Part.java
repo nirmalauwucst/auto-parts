@@ -3,12 +3,18 @@
  */
 package it.nmadlk.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * @author Navo
  *
  */
+
+@Entity
 public class Part {
 	
+	@Id
 	private String partId;
 	private String partName;
 	private String partCategory;

@@ -4,53 +4,61 @@
 package it.nmadlk.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.nmadlk.models.Part;
+import it.nmadlk.repository.PartRepository;
 
 /**
  * @author Navo
  * Business Service for parts 
+ * 
+ * (Note!)If you are using the "Derby" as database, the framework sees the embedded Derby database in the classpath 
+ * and assumes that to be the database to connect to. No connection information necessary.
  */
 
 @Service
 public class PartService {
-	private List<Part> parts = new ArrayList<>(Arrays.asList(
-			new Part("SUS01", "Front Outer Bumper", "Body", 22000, "Suzuki WagonR FZ 2015/2016 Front Outer Bumper "),
-			new Part("SUS02", "R Side Fender", "Body", 18200, "Suzuki WagonR FZ 2015/2016 Right Side Fender "),
-			new Part("SUS03", "R Side Headlamp", "Body", 42000, "Suzuki WagonR FZ 2015/2016 Right Side Headlamp")
-			)); 
-	  
+	
+	@Autowired
+	private PartRepository partRepository;
+	
 	/**
-	 * Arrays.asList creates a non mutable array(cannot add or remove things from the list), 
-	 * So in order to be edit the list pass to the constructor and make a copy of arrayList to make it mutable
+	 * findAll() is an Iterable<Part> in CrudRepository
+	 * @return parts
 	 */
 	public List<Part> getAllParts(){
+		List<Part> parts = new ArrayList<>();
+		partRepository.findAll().forEach(parts::add);
 		return parts;
 	}
 	
-	public Part getPart(String id) {
-		return parts.stream().filter(t -> t.getPartId().equals(id)).findFirst().get();
+	public Optional<Part> getPart(String id) {
+		return partRepository.findById(id);
 	}
 
+	/**
+	 * Using the save method in CrudRepository
+	 * @param part
+	 */
 	public void addPart(Part part) {
-		parts.add(part);
+		partRepository.save(part); 
 	}
 
+	/**
+	 * This will do the update if the record does not exist.
+	 * @param id
+	 * @param part
+	 */
 	public void updatePart(String id, Part part) {
-		for(int i=0; i<parts.size(); i++) {
-			Part p = parts.get(i);
-			if(p.getPartId().equals(id)) {
-				parts.set(i, part);
-				return;
-			}
-		}
+		partRepository.save(part); 
 	}
 
 	public void deletePart(String id) {
-		parts.removeIf(t -> t.getPartId().equals(id));
+		partRepository.deleteById(id);
 	}
 }

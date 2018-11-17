@@ -1,6 +1,7 @@
 #files
 .classpath
 .project
+*.log
 
 #folders
 .settings/

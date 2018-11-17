@@ -5,6 +5,7 @@ package it.nmadlk.controllers;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class PartController {
 	}
 	
 	@RequestMapping("/parts/{id}")
-	public Part getPart(@PathVariable String id) {
+	public Optional<Part> getPart(@PathVariable String id) {
 		return partService.getPart(id);
 	}
 	
