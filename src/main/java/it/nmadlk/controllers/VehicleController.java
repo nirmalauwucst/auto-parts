@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import it.nmadlk.models.Vehicle;
 import it.nmadlk.services.VehicleService;
 
@@ -26,27 +27,32 @@ public class VehicleController {
 	@Autowired
 	private VehicleService vehicleService;
 	
-	@RequestMapping("/vehicles")
+	@ApiOperation(value = "Retrieve all vehicles")
+	@RequestMapping(method=RequestMethod.GET, value="/vehicles", produces="application/json")
 	public List<Vehicle> getAllVehicles() {
 		return vehicleService.getAllVehicles();
 	}
 	
-	@RequestMapping("/vehicles/{id}")
+	@ApiOperation(value = "Retrieve a vehicle")
+	@RequestMapping(method=RequestMethod.GET, value="/vehicles/{id}", produces="application/json")
 	public Optional<Vehicle> getVehicle(@PathVariable String id) {
 		return vehicleService.getVehicle(id);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/vehicles")
+	@ApiOperation(value = "Add a new vehicle")
+	@RequestMapping(method=RequestMethod.POST, value="/vehicles", produces="application/json")
 	public void addPart(@RequestBody Vehicle vehicle) {
 		vehicleService.addVehicle(vehicle);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/vehicles/{id}")
+	@ApiOperation(value = "Update a vehicle")
+	@RequestMapping(method=RequestMethod.PUT, value="/vehicles/{id}", produces="application/json")
 	public void updatePart(@PathVariable String id, @RequestBody Vehicle vehicle) {
 		vehicleService.updateVehicle(id, vehicle);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/vehicles/{id}")
+	@ApiOperation(value = "Remove a vehicle")
+	@RequestMapping(method=RequestMethod.DELETE, value="/vehicles/{id}", produces="application/json")
 	public void deleteVehicle(@PathVariable String id) {
 		vehicleService.deleteVehicle(id);
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import it.nmadlk.models.Part;
 import it.nmadlk.models.Vehicle;
 import it.nmadlk.services.PartService;
@@ -23,34 +24,40 @@ import it.nmadlk.services.PartService;
  *
  */
 @RestController
+@RequestMapping("/vehicles")
 public class PartController {
 	//@Autowired, which marks that,need of dependency injection for member variable from a service
 	@Autowired
 	private PartService partService;
 	
-	@RequestMapping("/vehicles/{id}/parts")
+	@ApiOperation(value = "Retrieve all spare parts of a vehicle")
+	@RequestMapping(method=RequestMethod.GET, value="/{id}/parts", produces="application/json" )
 	public List<Part> getAllParts(@PathVariable String id) {
 		return partService.getAllParts(id);
 	}
 	
-	@RequestMapping("/vehicles/{vehicleId}/parts/{id}")
+	@ApiOperation(value = "Retrieve a spare part of a vehicle")
+	@RequestMapping(method=RequestMethod.GET, value="/{vehicleId}/parts/{id}", produces="application/json")
 	public Optional<Part> getPart(@PathVariable String id) {
 		return partService.getPart(id);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/vehicles/{vehicleId}/parts")
+	@ApiOperation(value = "Add a new spare part")
+	@RequestMapping(method=RequestMethod.POST, value="/{vehicleId}/parts", produces="application/json")
 	public void addPart(@RequestBody Part part, @PathVariable String vehicleId) {
 		part.setVehicle(new Vehicle(vehicleId,"","","","",""));
 		partService.addPart(part);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/vehicles/{vehicleId}/parts/{id}")
+	@ApiOperation(value = "Update a spare part")
+	@RequestMapping(method=RequestMethod.PUT, value="/{vehicleId}/parts/{id}", produces="application/json")
 	public void updatePart(@RequestBody Part part, @PathVariable String vehicleId, @PathVariable String id) {
 		part.setVehicle(new Vehicle(vehicleId, "","","","",""));
 		partService.updatePart(id, part);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/vehicles/{vehicleId}/parts/{id}")
+	@ApiOperation(value = "Remove a spare part")
+	@RequestMapping(method=RequestMethod.DELETE, value="/{vehicleId}/parts/{id}", produces="application/json")
 	public void deletePart(@PathVariable String id) {
 		partService.deletePart(id);
 	}
