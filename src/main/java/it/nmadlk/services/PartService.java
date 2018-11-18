@@ -29,11 +29,12 @@ public class PartService {
 	
 	/**
 	 * findAll() is an Iterable<Part> in CrudRepository
+	 * @param id 
 	 * @return parts
 	 */
-	public List<Part> getAllParts(){
+	public List<Part> getAllParts(String vehicleId){
 		List<Part> parts = new ArrayList<>();
-		partRepository.findAll().forEach(parts::add);
+		partRepository.findByVehicleId(vehicleId).forEach(parts::add);
 		return parts;
 	}
 	
@@ -48,13 +49,13 @@ public class PartService {
 	public void addPart(Part part) {
 		partRepository.save(part); 
 	}
-
+ 
 	/**
 	 * This will do the update if the record does not exist.
 	 * @param id
 	 * @param part
 	 */
-	public void updatePart(String id, Part part) {
+	public void updatePart(String id,Part part) {
 		partRepository.save(part); 
 	}
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.nmadlk.models.Part;
+import it.nmadlk.models.Vehicle;
 import it.nmadlk.services.PartService;
 
 /**
@@ -27,27 +28,29 @@ public class PartController {
 	@Autowired
 	private PartService partService;
 	
-	@RequestMapping("/parts")
-	public List<Part> getAllParts() {
-		return partService.getAllParts();
+	@RequestMapping("/vehicles/{id}/parts")
+	public List<Part> getAllParts(@PathVariable String id) {
+		return partService.getAllParts(id);
 	}
 	
-	@RequestMapping("/parts/{id}")
+	@RequestMapping("/vehicles/{vehicleId}/parts/{id}")
 	public Optional<Part> getPart(@PathVariable String id) {
 		return partService.getPart(id);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/parts")
-	public void addPart(@RequestBody Part part) {
+	@RequestMapping(method=RequestMethod.POST, value="/vehicles/{vehicleId}/parts")
+	public void addPart(@RequestBody Part part, @PathVariable String vehicleId) {
+		part.setVehicle(new Vehicle(vehicleId,"","","","",""));
 		partService.addPart(part);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/parts/{id}")
-	public void updatePart(@PathVariable String id, @RequestBody Part part) {
+	@RequestMapping(method=RequestMethod.PUT, value="/vehicles/{vehicleId}/parts/{id}")
+	public void updatePart(@RequestBody Part part, @PathVariable String vehicleId, @PathVariable String id) {
+		part.setVehicle(new Vehicle(vehicleId, "","","","",""));
 		partService.updatePart(id, part);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/parts/{id}")
+	@RequestMapping(method=RequestMethod.DELETE, value="/vehicles/{vehicleId}/parts/{id}")
 	public void deletePart(@PathVariable String id) {
 		partService.deletePart(id);
 	}

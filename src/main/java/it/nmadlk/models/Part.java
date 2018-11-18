@@ -5,6 +5,7 @@ package it.nmadlk.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Navo
@@ -15,11 +16,15 @@ import javax.persistence.Id;
 public class Part {
 	
 	@Id
-	private String partId;
+	private String id;
 	private String partName;
 	private String partCategory;
 	private double unitCost;
 	private String description;
+	
+	 //(Inspiration!) Many parts for One vehicle
+	@ManyToOne 
+	private Vehicle vehicle;
 	
 	
 	public Part() {
@@ -27,24 +32,25 @@ public class Part {
 	}
 
 
-	public Part(String partId, String partName, String partCategory, double unitCost, String description) {
+	public Part(String id, String partName, String partCategory, double unitCost, String description, String vehicleId) {
 		super();
-		this.partId = partId;
+		this.id = id;
 		this.partName = partName;
 		this.partCategory = partCategory;
 		this.unitCost = unitCost;
 		this.description = description;
+		this.vehicle = new Vehicle(vehicleId,"","","","","");
 	}
 
 
 
-	public String getPartId() {
-		return partId;
+	public String getId() {
+		return id;
 	}
 
 
-	public void setPartId(String partId) {
-		this.partId = partId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 
@@ -85,6 +91,16 @@ public class Part {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 	
 	

@@ -3,6 +3,8 @@
  */
 package it.nmadlk.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import it.nmadlk.models.Part;
@@ -17,5 +19,15 @@ import it.nmadlk.models.Part;
  * First one is what is the entity class is here working with(Here "Part"). The second generic type is what is the Id that entity class has(Here it is a "String").
  */
 public interface PartRepository extends CrudRepository<Part, String> {
+	
+	/**
+	 * Should start the method signature from the word "find" and complete the rest exactly from the filter criteria.
+	 * eg: Here we need to find all the parts for a particular vehicle.
+	 * You don't need to implement the method. Spring framework implements the required method for you.
+	 * Here the method signature build as: "findBy"+"Object to filter with"+"Object's Property to filter with"
+	 * @param vehicleId
+	 * @return
+	 */
+	public List<Part> findByVehicleId(String vehicleId); 
 
 }
