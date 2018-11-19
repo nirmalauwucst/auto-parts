@@ -38,7 +38,7 @@ public class PartController {
 	
 	@ApiOperation(value = "Retrieve a spare part of a vehicle")
 	@RequestMapping(method=RequestMethod.GET, value="/{vehicleId}/parts/{id}", produces="application/json")
-	public Optional<Part> getPart(@PathVariable String id) {
+	public Optional<Part> getPart(@PathVariable String vehicleId, @PathVariable String id) {
 		return partService.getPart(id);
 	}
 	
