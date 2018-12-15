@@ -3,7 +3,9 @@
  */
 package it.nmadlk.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -23,7 +25,7 @@ public class Part {
 	private String description;
 	
 	 //(Inspiration!) Many parts for One vehicle
-	@ManyToOne 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Vehicle vehicle;
 	
 	
